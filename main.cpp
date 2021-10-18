@@ -115,9 +115,9 @@ int main() {
     if(!wrong.empty()){
         std::cout << "End! Wrong question:";
         for(int j=0; j<wrong.size();j++){
-            std::cout <<wrong[j]+1;
+            std::cout <<wrong[j]+1<<",";
         }
-        std::cout <<", your score is"<<score<< std::endl;
+        std::cout <<", your score is: "<<score<< std::endl;
     }
     else{
         std::cout << "End! All right, that's great! You have full score:"<<score<< std::endl;
