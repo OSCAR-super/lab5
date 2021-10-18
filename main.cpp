@@ -1,109 +1,81 @@
 #include <iostream>
 #include <string>
-#include <time.h>
 #include <vector>
+#include <random>
 
 char letter(int n){
     switch (n) {
         case 0:
             return '+';
-            break;
         case 1:
             return '-';
-            break;
         case 2:
             return '*';
-            break;
         case 3:
             return '/';
-            break;
         default:
             break;
     }
+    return 0;
 }
 
-float rannum1(int n){
-    srand((unsigned)time(NULL));
-    float num=0;
-    float f=0.0;
+double rannum(int n){
+    std::random_device rd;
+    std::default_random_engine gen = std::default_random_engine(rd());
+    std::uniform_int_distribution<int> dis(0,100);
+    std::uniform_int_distribution<int> disz(0,1000);
+    std::uniform_int_distribution<int> disg(0,1000000);
+    double num;
+    double f;
     if(n==1){
-        num = rand()%100;
+        num = dis(gen);
         return num;
-    }
-    if(n==2){
-        num = rand();
+    } else if(n==2){
+        num = disz(gen);
         return num;
-    }
-    if(n==3){
-        f = rand()+rand()/100.00;
+    } else if(n==3){
+        f = disg(gen)+disg(gen)/100.00;
         return f;
     }
+    return 0;
 }
 
-float rannum2(int n){
-    srand((unsigned)rand());
-    float num=0;
-    float f=0.0;
-    if(n==1){
-        num = rand()%100;
-        return num;
-    }
-    if(n==2){
-        num = rand();
-        return num;
-    }
-    if(n==3){
-        f = rand()+rand()/100.00;
-        return f;
-    }
-}
-
-float suan(float a, float b, int k){
+double suan(double a, double b, int k){
     switch (k) {
         case 0:
             return a+b;
-            break;
         case 1:
             return a-b;
-            break;
         case 2:
             return a*b;
-            break;
         case 3:
             return a/b;
-            break;
         default:
             break;
     }
+    return 0;
 }
 
 int main() {
+    std::random_device rd;
+    std::default_random_engine gen = std::default_random_engine(rd());
     std::cout << "Please enter your grade" << std::endl;
     std::string grade;
     getline(std::cin,grade);
-    int diff=0,n=0;
-    int pool=100;
+    int diff,n=0;
+    double pool=100;
     switch (grade[6]) {
         case '1':
-            diff=1;
-            n=2;
-            break;
         case '2':
             diff=1;
             n=2;
             break;
         case '3':
-            diff=2;
-            n=4;
-            break;
         case '4':
             diff=2;
             n=4;
             break;
         case '5':
-            diff=3;
-            n=4;
-            break;
         case '6':
             diff=3;
             n=4;
@@ -112,17 +84,16 @@ int main() {
             diff=0;
             break;
     }
-
-    int num=0;
+    float num=0;
     std::cout << "Please enter the number of questions" << std::endl;
     std::cin>>num;
-    float qs=pool/num;
-    float score=0.00;
-    int i=0;
+    double qs=pool/num;
+    double score=0.00;
     std::vector<int> wrong;
-    for( i=0; i<num; i++){
-        float a=rannum1(diff),b=rannum2(diff),sum,in;
-        int k= rand()%n;
+    for( int i=0; float (i)<num; i++){
+        double a=rannum(diff),b=rannum(diff),sum,in;
+        std::uniform_int_distribution<int> dis(0,n-1);
+        int k= dis(gen);
         std::cout << a << letter(k)<< b << "=?" << std::endl;
         std::cin>>in;
         if(k==3&&b==0){
@@ -135,11 +106,10 @@ int main() {
             wrong.push_back(i);
         }
     }
-
     if(!wrong.empty()){
         std::cout << "End! Wrong question:";
-        for(int j=0; j<wrong.size();j++){
-            std::cout <<wrong[j]+1<<",";
+        for(int j : wrong){
+            std::cout <<j+1<<",";
         }
         std::cout <<", your score is: "<<score<< std::endl;
     }
